@@ -1,10 +1,11 @@
 import * as Location from "expo-location";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function App() {
   const [location, setLocation] = useState(null);
+  const mapRef = useRef();
 
   useEffect(() => {
     (async () => {
@@ -22,7 +23,13 @@ export default function App() {
 
   return (
     <View>
-      <MapView provider="google" style={{ width: "100%", height: "100%" }}>
+      <MapView
+        ref={mapRef}
+        mapType="hybrid"
+        showsTraffic
+        provider="google"
+        style={{ width: "100%", height: "100%" }}
+      >
         {location && (
           <Marker
             coordinate={{
@@ -43,6 +50,21 @@ export default function App() {
           </Marker>
         )}
       </MapView>
+      <View
+        style={{
+          position: "absolute",
+          bottom: 20,
+          right: 20,
+          backgroundColor: "white",
+        }}
+      >
+        <Button
+          title="center"
+          onPress={() => {
+            mapRef.current.animateToRegion;
+          }}
+        ></Button>
+      </View>
     </View>
   );
 }
